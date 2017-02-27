@@ -1,8 +1,9 @@
 <?php
 
-namespace spaceboy;
+namespace Spaceboy\Base20;
 
-require_once ('base20.php');
+require_once ('src/Base20.php');
+require_once ('src/Base20Exceptions.php');
 
 foreach ([0, 1, 2, 10, 20, 399, 400, 7999, 8000, 159999, 160000] as $n) {
     try {
@@ -22,4 +23,3 @@ foreach (['FYMAB', 'FUMAC', 'FEMAK', 'FYMAV', 'FYHAB', 'FONAJ', 'MYMAB', 'TONAJ'
     }
 }
 echo "\n";
-

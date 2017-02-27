@@ -1,8 +1,15 @@
 <?php
+/**
+ * Library for "Base20" number coding and encoding
+ * @author spaceboy
+ */
 
-namespace spaceboy;
+namespace Spaceboy\Base20;
 
 class Base20 {
+
+    const VOWELS        = 'aeiouy';
+    const CONSONANTS    = 'bcdfghjklmnpqrstvwxz';
 
     public static $bArr = array(
         'bckwhmgldfvnxzqrsptj',
@@ -14,18 +21,23 @@ class Base20 {
 
     public static $aArr = 'yueioa';
 
+    /**
+     * Decodes Base20 number to string representation of integer ("numericint")
+     * @param string $source
+     * @return string
+     */
     public static function decode ($source) {
         $num = sizeof(self::$bArr);
         $len = strlen($source);
         $out = 0;
         if (3 > $len) {
-            throw new \Exception("Given code ({$source}} is too short; at least 3 letters expected.");
+            throw new Base20ExceptionShort("Given code ({$source}} is too short; at least 3 letters expected.");
         }
         if (1 != ($len % 2)) {
-            throw new \Exception("Wrong code ({$source}} given.");
+            throw new Base20ExceptionWrong("Wrong code ({$source}} given.");
         }
         if ($len != (($num * 2) - 1)) {
-            throw new \Exception("Given code ({$source}} doesn't match given number size.");
+            throw new Base20ExceptionMismatch("Given code ({$source}} doesn't match given number size.");
         }
         $tmp = array();
         for ($i = 0; $i < $len; $i += 2) {
@@ -36,18 +48,23 @@ class Base20 {
             $p = strpos(self::$bArr[$i], $v);
             if (false === $p) {
                 $v = strToUpper($v);
-                throw new \Exception("Index \"{$v}\" not found in ({$source}), at least 2 required.");
+                throw new Base20ExceptionIndex("Index \"{$v}\" not found in ({$source}), at least 2 required.");
             }
             $out += $p * $exp;
             $exp = $exp * 20;
         }
         $p = strpos(self::$aArr, strToLower($source[1]));
         if ($p != ($out % 5)) {
-            throw new \Exception("Control number in ({$source}) doesn't match.");
+            throw new Base20ExceptionChecksum("Checksum in ({$source}) doesn't match.");
         }
         return $out;
     }
 
+    /**
+     * Encodes integer (or string representation of integer) to Base20 "number"
+     * @param integer/string $source
+     * @return string
+     */
     public static function encode ($source) {
         $exp = 0;
         $tmp = array();
@@ -85,6 +102,9 @@ class Base20 {
         return implode('', $out);
     }
 
+    /**
+     * Returns
+     */
     public static function explode ($str) {
         $a = array();
         $l = strlen($str);
@@ -94,8 +114,12 @@ class Base20 {
         return $a;
     }
 
+    /**
+     * Returns random consonants set
+     * @return string
+     */
     public static function getRandomSet () {
-        $a = self::explode('bcdfghjklmnpqrstvwxz');
+        $a = self::explode(self::CONSONANTS);
         shuffle($a);
         return join('', $a);
     }
