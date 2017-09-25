@@ -1,0 +1,18 @@
+{
+    "name": "spaceboy/base20",
+    "description": "Encodes and decodes numbers to alphabetical strings",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Spaceboy"
+        }
+    ],
+    "keywords": ["spaceboy", "php", "base20"],
+    "autoload": {
+        "classmap": ["src"]
+    },
+    "require": {
+        "php": ">= 4.2.0"
+    }
+}

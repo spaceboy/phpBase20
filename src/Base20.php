@@ -115,12 +115,30 @@ class Base20 {
     }
 
     /**
-     * Returns random consonants set
+     * Randomizes chars order in string
+     * @params string $source: source string
      * @return string
      */
-    public static function getRandomSet () {
-        $a = self::explode(self::CONSONANTS);
+    public static function randomizeString ($source) {
+        $a = self::explode($source);
         shuffle($a);
         return join('', $a);
     }
+
+    /**
+     * Returns random consonants set
+     * @return string
+     */
+    public static function getRandomSetConsonants () {
+        return self::randomizeString(self::CONSONANTS);
+    }
+
+    /**
+     * Returns random vowels set
+     * @return string
+     */
+    public static function getRandomSetVowels () {
+        return self::randomizeString(self::VOWELS);
+    }
+
 }
